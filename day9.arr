@@ -59,10 +59,9 @@ items-with-closer-xy = transform-column(items-with-closer-x, "y-coordinate", red
 fun calc-rounded-distance(r :: Row) -> Number:
   doc: "does distance to origin from fields 'x-coordinate' and 'y-coordinate'"
   num-round(calc-distance(r))
-where:
-  calc-rounded-distance(items.row-n(0)) is 90
+where:(0)) is 90
   calc-rounded-distance(items.row-n(3)) is 65
-end
+end%(within(0.1))
 
 closer-items-with-dist = build-column(items-with-closer-xy, "distance", calc-rounded-distance)
 
