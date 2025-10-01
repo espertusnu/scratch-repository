@@ -34,7 +34,8 @@ end
 
 fun normalize-phone(s :: String) -> String:
   doc: "remove parentheses, dashes, spaces, and periods"
-  s1 = remove-char(s, "(")
+  s1 = string-replace(s, "(", "")
+  remove-char(s, "(")
   s2 = remove-char(s1, ")")
   s3 = remove-char(s2, "-")
   s4 = remove-char(s3, " ")

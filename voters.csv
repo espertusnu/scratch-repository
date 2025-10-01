@@ -2,7 +2,7 @@ VoterID,FirstName,LastName,DOB,Party,Address,City,State,Zip,Phone,Email,LastVote
 1,John, Doe,1980-05-12,Democrat,123 Main St,New York,NY,10001,(555) 123-4567,john.doe@example.com,11/04/2024
 2,Jane,Smith,05/12/1975,Republican,456 Elm Street,Los Angeles,,90001,555.987.6543,jane_smith at email.com,2023-11-08
 3,Bob,Johnson,1978/07/08,Independent,789 Oak St ,Chicago,IL,60614,555-000-111,bob.johnson@example,Oct 10 2022
-4,Alice,O'Connor,1992-04-31,Democart,135 Pine St,San Francisco,CA,94107,5551234567,alice.o'connor@example.com,2024-02-29
+4,Alice,O'Connor,1992-04-31,Democrat,135 Pine St,San Francisco,CA,94107,5551234567,alice.o'connor@example.com,2024-02-29
 5,Carlos,Méndez,1985-09-23,,246 Maple Ave,Dallas,TX,75201, (555) 333-2222,carlos.mendez@example.com,2024/05/15
 6,Emily,Nguyen,1990-13-01,Democrat,357 Birch Rd.,Houston,tx,77002,555-444-3333,emily.nguyen@example.com,05-20-2024
 7,Michael,Brown,1970-11-11,Republican,468 Cedar Ln,Seattle,WA,98101,555-6666-777,michael.brown@example.com,2024-03-14
