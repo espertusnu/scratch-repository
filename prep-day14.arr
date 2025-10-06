@@ -8,7 +8,8 @@ import lists as L
 
 discount-codes = [list: "NEWYEAR", "student", "NONE", "student", "VIP", "none"]
 
-unique-codes = L.distinct(discount-codes)
+unique-codes = L.distinct(discount-codes
+  
 
 unique-codes-uc = L.map(string-to-upper, discount-codes)
 
