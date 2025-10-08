@@ -28,10 +28,8 @@ fun sum-even-numbers(num-list :: List<Number>) -> Number block:
   doc: "adds up the even numbers in the list"
   var total = 0
   for each(n from num-list):
-    if is-even(n):
+    when is-even(n):
       total := total + n
-    else:
-      total := total + 0
     end
   end
   total
@@ -61,10 +59,8 @@ fun any-negative(num-list :: List<Number>) -> Boolean block:
   doc: "checks if any numbers in the list are negative"
   var result = false
   for each(n from num-list):
-    if n < 0:
+    when n < 0:
       result := true
-    else:
-      result := result
     end
   end
   result
@@ -80,10 +76,8 @@ fun all-short-words(word-list :: List<String>) -> Boolean block:
   doc: "checks if all strings in the list have 4 or fewer characters"
   var result = true
   for each(word from word-list):
-    if string-length(word) > 4:
+    when string-length(word) > 4:
       result := false
-    else:
-      result := result
     end
   end
   result
@@ -95,3 +89,30 @@ end
 
 # Exercise 6
 
+fun reverse-list(start-list :: List) -> List block:
+  doc: "reverses the list"
+  var result-list = empty
+  for each(item from start-list):
+    result-list := result-list.push(item)
+  end
+  result-list
+where:
+  reverse-list([list: "one"]) is [list: "one"]
+  reverse-list([list: 1, 2, 3]) is [list: 3, 2, 1]
+end
+  
+# Exercise 7
+fun concat-all(strings :: List<String>) -> String block:
+  doc: "concatenates the strings into a single string"
+  var result = ""
+  spy:
+    result
+  end
+  for each(string from strings):
+    result := result + string
+  end
+  result
+where:
+  concat-all(empty) is ""
+  concat-all([list: "hey", "there"]) is "heythere"
+end
