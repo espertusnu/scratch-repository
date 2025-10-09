@@ -105,9 +105,7 @@ fun my-alternating-map(start-list :: List) -> List:
   doc: "creates a list of every other elment from start-list"
 
   # Create [list: 0, 1, 2, ..., (n-1)] where n is the length of start-list
-  list-of-pos = L.build-list(
-    lam(x): x end,
-    L.length(start-list))
+  list-of-pos = L.range(0, L.length(start-list))
 
   # Create list of lists, where element 0 is [list: 0, elt0],
   # where elt0 is the first element of start-list. The outer
@@ -155,18 +153,3 @@ end
 ## Exercise 10
 
 # There is no straightforward way to do this.
-
-fun my-running-sum-map(num-list :: List<Number>) -> List<Number>:
-  doc: "creates a list with the running total of elements in num-list"
-  var my-list = empty
-  var total = 0
-  for each(num from num-list) block:
-    total := total + num
-    my-list := my-list + [list: total]
-  end
-  my-list
-where:
-  my-running-sum(empty) is empty
-  my-running-sum([list: -5, 5, 0]) is [list: -5, 0, 0]
-  my-running-sum([list: 1, 2, 3]) is [list: 1, 3, 6]
-end
