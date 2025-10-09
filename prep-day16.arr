@@ -8,7 +8,7 @@ fun my-doubles(numbers :: List<Number>) -> List<Number> block:
   doc: "doubles all the numbers in the list"
   var my-list = empty
   for each(n from numbers):
-    my-list := my-list.append([list: 2 * n])
+    my-list := my-list + [list: 2 * n]
   end
   my-list
 where:
@@ -32,7 +32,7 @@ fun my-string-lens(strings :: List<String>) -> List<Number> block:
   doc: "creates a list of the lengths of the strings"
   var my-list = empty
   for each(s from strings):
-    my-list := my-list.append([list: string-length(s)])
+    my-list := my-list + [list: string-length(s)]
   end
   my-list
 where:
@@ -57,7 +57,7 @@ fun my-pos-nums(num-list :: List<Number>) -> List<Number> block:
   var my-list = empty
   for each(n from num-list):
     when n > 0:
-      my-list := my-list.append([list: n])
+      my-list := my-list + [list: n]
     end
   end
   my-list
@@ -86,7 +86,7 @@ fun my-alternating(start-list :: List) -> List block:
   var take-next = true
   for each(elt from start-list) block:
     when take-next:
-      my-list := my-list.append([list: elt])
+      my-list := my-list + [list: elt]
     end
     take-next := not(take-next)
   end
@@ -115,7 +115,7 @@ fun my-alternating-map(start-list :: List) -> List:
     list-of-pos,
     start-list)
   
-  # Keep only the inner lists whose first element (position) is even.
+  # Keep only the inner lists whose first element (position) is even
   even-lists = L.filter(
     lam(lst :: List) -> Boolean: 
       pos = lst.get(0)
