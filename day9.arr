@@ -56,16 +56,18 @@ items-with-closer-xy = transform-column(items-with-closer-x, "y-coordinate", red
 
 # Find closest item
 
-fun calc-rounded-distance(r :: Row) -> Number:
+fun calc-rational-distance(r :: Row) -> Number:
   doc: "does distance to origin from fields 'x-coordinate' and 'y-coordinate'"
-  num-round(calc-distance(r))
-where:(0)) is 90
-  calc-rounded-distance(items.row-n(3)) is 65
-end%(within(0.1))
+  distance = calc-distance(r)
+  num-to-rational(distance)
+where:
+  calc-rational-distance(items.row-n(0)) is%(within(0.1)) 89.9
+  calc-rational-distance(items.row-n(3)) is%(within(0.1)) 64.9
+end
 
-closer-items-with-dist = build-column(items-with-closer-xy, "distance", calc-rounded-distance)
+closer-items-with-dist = build-column(items-with-closer-xy, "distance", calc-rational-distance)
 
-sorted-closer-items = order-by(closer-items-with-dist, "distance", false) # error
+sorted-closer-items = order-by(closer-items-with-dist, "distance", true) 
 
 closest-item = sorted-closer-items.row-n(0)
 
