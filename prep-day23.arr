@@ -98,3 +98,47 @@ end
 ## This should be a binary tree with one leaf constructor (for 
 ## numbers) and four node constructors (for the four types of 
 ## binary operations).
+
+data Arith:
+  | num(value :: Number)
+  | addition(a1 :: Arith, a2 :: Arith)
+  | multiplication(m1 :: Arith, m2 :: Arith)
+  | division(d1 :: Arith, d2 :: Arith)
+  | subtraction(s1 :: Arith, s2 :: Arith)
+end
+
+## Class exercise 4
+## 
+## Define constants using your Arith to represent the following expressions:
+
+## 1 + 2
+CONST1 = addition(num(1), num(2))
+
+## 1 * (3 / 4)
+CONST2 = multiplication(num(1), division(num(3), num(4)))
+
+## (7 - 3) * (2 + (5 / 2))
+CONST3 = multiplication(
+  subtraction(num(7), num(3)),
+  addition(num(2), division(num(5), num(2))))
+
+
+## Class exercise 5
+##
+## Design a function eval that takes an Arith and returns the single number
+## to which it evaluates.
+
+fun eval(arith :: Arith) -> Number:
+  doc: "evaluates an arithmetic expression"
+  cases (Arith) arith:
+    | num(v) => v
+    | addition(a1, a2) => eval(a1) + eval(a2)
+    | multiplication(m1, m2) => eval(m1) * eval(m2)
+    | division(d1, d2) => eval(d1) / eval(d2)
+    | subtraction(s1, s2) => eval(s1) - eval(s2)
+  end
+where:
+  eval(CONST1) is 3
+  eval(CONST2) is 0.75
+  eval(CONST3) is 18
+end
