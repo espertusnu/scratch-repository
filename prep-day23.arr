@@ -3,7 +3,7 @@ use context dcic2024
 ## Intro code
 
 data BST:
-  | leaf
+  | empty-leaf
   | node(key :: Number, val :: String, left :: BST, right :: BST)
 end
 
@@ -12,14 +12,14 @@ end
 # all nodes in the right subtree have keys greater than
 # the key in the current node
 
-BST0 = leaf
+BST0 = empty-leaf
 BST1 = node(1, "hello", BST0, BST0)
 BST2 = node(5, "bye", BST1, BST0)
 BST3 = node(6, "bye", BST2, node(10, "cs2000", BST0, BST0))
 
 fun height(bst :: BST) -> Number:
   cases (BST) bst:
-    | leaf => 0
+    | empty-leaf => 0
     | node(k, v, left, right) => 
         1 + num-max(height(left), height(right))
   end
@@ -42,7 +42,7 @@ end
 fun retrieve(bst :: BST, goal-num :: Number) -> Option<String>:
   doc: "finds the key associated with num in bst or returns none"
   cases (BST) bst:
-    | leaf => none
+    | empty-leaf => none
     | node(key, val, left, right) =>
       if goal-num == key:
         some(val)
@@ -74,7 +74,7 @@ end
 fun is-balanced(bst :: BST) -> Boolean:
   doc: "finds whether a BST is balanced"
   cases (BST) bst:
-    | leaf => true
+    | empty-leaf => true
     | node(key, val, left, right) =>
       (num-abs(height(left) - height(right)) <= 1) and
       is-balanced(left) and is-balanced(right)
@@ -82,7 +82,7 @@ fun is-balanced(bst :: BST) -> Boolean:
 where:
   is-balanced(BST3) is true
   # This tree only has left nodes and is unbalanced
-  is-balanced(node(1, "root", node(2, "left1", node(3, "left2", leaf, leaf), leaf), leaf)) is false
+  is-balanced(node(1, "root", node(2, "left1", node(3, "left2", empty-leaf, empty-leaf), empty-leaf), empty-leaf)) is false
 end
   
 
