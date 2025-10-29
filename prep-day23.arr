@@ -84,7 +84,6 @@ where:
   # This tree only has left nodes and is unbalanced
   is-balanced(node(1, "root", node(2, "left1", node(3, "left2", empty-leaf, empty-leaf), empty-leaf), empty-leaf)) is false
 end
-  
 
 ## Class exercise 3
 ##
@@ -141,4 +140,5 @@ where:
   eval(CONST1) is 3
   eval(CONST2) is 0.75
   eval(CONST3) is 18
+
 end
