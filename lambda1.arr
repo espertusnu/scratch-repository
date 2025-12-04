@@ -13,8 +13,10 @@ BOOL-to-string = lam(c):
   c("true", "false")
 end
 
-BOOL-to-string(TRUE)
-BOOL-to-string(FALSE)
+check:
+  BOOL-to-string(TRUE) is "true"
+  BOOL-to-string(FALSE) is "false"
+end
 
 # IF is the function that takes:
 # * a BOOL (TRUE or FALSE)
@@ -23,9 +25,32 @@ BOOL-to-string(FALSE)
 # and returns the appropriate expression.
 IF = lam(b, i, e): b(i, e) end
 
-# Let's test it out...
-IF(TRUE, "it was true", "it was false")  # "it was true"
-IF(FALSE, "it was true", "it was false") # "it was false"
+check:
+  IF(TRUE, "it was true", "it was false") is "it was true"
+  IF(FALSE, "it was true", "it was false") is "it was false"
+end
+
+## Implement MAKE-PAIR, FIRST, and SECOND
+
+# A PAIR is a function that takes a "selector" and returns 
+# the appropriate item.
+MAKE-PAIR = lam(a, b): 
+  lam(s): s(a, b) end
+end
+
+FIRST = lam(p):
+  p(lam(x, y): x end)
+end
+
+SECOND = lam(p):
+  p(lam(x, y): y end)
+end
+
+check:
+  my-pair = MAKE-PAIR(1, 100)
+  FIRST(my-pair) is 1
+  SECOND(my-pair) is 100
+end
 
 ## Implement AND, OR, and NOT as functions.
 
@@ -34,10 +59,6 @@ IF(FALSE, "it was true", "it was false") # "it was false"
 
 NOT = lam(b): IF(b, FALSE, TRUE) end
 
-BOOL-to-string(NOT(TRUE)) # "true"
-
-BOOL-to-string(NOT(FALSE)) # "false"
-
 # OR is the function that takes two BOOLs and
 # returns TRUE if 1 or more is TRUE, FALSE otherwise.
 
@@ -45,10 +66,12 @@ OR = lam(b1, b2):
   IF(b1, TRUE, b2)
 end
 
-BOOL-to-string(OR(TRUE, TRUE)) # "true"
-BOOL-to-string(OR(TRUE, FALSE)) # "true"
-BOOL-to-string(OR(FALSE, TRUE)) # "true"
-BOOL-to-string(OR(FALSE, FALSE)) # "false"
+check:
+  BOOL-to-string(OR(TRUE, TRUE)) is "true"
+  BOOL-to-string(OR(TRUE, FALSE)) is "true"
+  BOOL-to-string(OR(FALSE, TRUE)) is "true"
+  BOOL-to-string(OR(FALSE, FALSE)) is "false"
+end
 
 # AND is the function that takes two BOOLs and
 # returns TRUE if both are TRUE, FALSE otherwise.
@@ -56,10 +79,12 @@ AND = lam(b1, b2):
   IF(b1, b2, FALSE)
 end
 
-BOOL-to-string(AND(TRUE, TRUE)) # "true"
-BOOL-to-string(AND(TRUE, FALSE)) # "false"
-BOOL-to-string(AND(FALSE, TRUE)) # "false"
-BOOL-to-string(AND(FALSE, FALSE)) # "false"
+check:
+  BOOL-to-string(AND(TRUE, TRUE)) is "true"
+  BOOL-to-string(AND(TRUE, FALSE)) is "false"
+  BOOL-to-string(AND(FALSE, TRUE)) is "false"
+  BOOL-to-string(AND(FALSE, FALSE)) is "false"
+end
 
 ## Implement the natural numbers (0, 1, etc.) as functions.
 
@@ -72,30 +97,41 @@ ZERO = lam(f, x): x end
 ONE = lam(f, x): f(x) end
 
 # Create helper function to render numbers.
-NUM-to-string = lam(n):
+NUM-to-int = lam(n):
   n(lam(x): x + 1 end, 0)
 end
 
-NUM-to-string(ZERO) # 0
-NUM-to-string(ONE) # 1
+check:
+  NUM-to-int(ZERO) is 0
+  NUM-to-int(ONE) is 1
+end
+
+EQUAL0 = lam(n):
+  n(lam(x): FALSE end, TRUE)
+end
+
+check:
+  BOOL-to-string(EQUAL0(ZERO)) # "true"
+  BOOL-to-string(EQUAL0(ONE)) # "false"
+end
 
 # Create function to increment a number by 1.
 INCREMENT = lam(n):
   lam(f, x): f(n(f, x)) end
 end
 
-NUM-to-string(INCREMENT(ZERO)) # 1
-NUM-to-string(INCREMENT(ONE)) # 2
+check:
+  NUM-to-int(INCREMENT(ZERO)) is 1
+  NUM-to-int(INCREMENT(ONE)) is 2
+end
 
 TWO = INCREMENT(ONE)
 THREE = INCREMENT(TWO)
-NUM-to-string(THREE) # 3
-
-# Create a function to add two numbers.
-ADDv1 = lam(n1, n2):
-  n1(INCREMENT, n2)
+check:
+  NUM-to-int(THREE) is 3
 end
 
+# Create a function to add two numbers.
 ADD = lam(n1, n2):
   lam(f, x):
     n2-applications = n2(f, x)
@@ -104,7 +140,9 @@ ADD = lam(n1, n2):
   end
 end
 
-NUM-to-string(ADD(TWO, THREE)) # 5
+check:
+  NUM-to-int(ADD(TWO, THREE)) is 5
+end
 
 # Create a function to multiply two numbers.
 MUL = lam(n1, n2): 
@@ -113,34 +151,70 @@ MUL = lam(n1, n2):
   add-n2-n1-times
 end
 
-NUM-to-string(MUL(TWO, THREE)) # 6
+check:
+  NUM-to-int(MUL(TWO, THREE)) is 6
+end
 
 ## Prepare to implement subtraction.
 
-# Create a function that takes a number and
-# returns TRUE if it is ZERO, FALSE otherwise.
-EQUAL0 = lam(n):
-  n(lam(x): FALSE end, TRUE)
+# Convert the pair (x,y) to the pair (y,y+1)
+PRED-HELPER = lam(pair):
+  MAKE-PAIR(SECOND(pair), INCREMENT(SECOND(pair)))
 end
 
-BOOL-to-string(EQUAL0(ZERO)) # "true"
-BOOL-to-string(EQUAL0(ONE)) # "false"
-
-# Create PAIR, FIRST, and SECOND to build a data structure of two values.
-
-# A pair is a function that takes a selector, which it applies to its two args.
-PAIR = lam(a, b): 
-  lam(s): s(a, b) end
+pair12 = MAKE-PAIR(ONE, TWO)
+check:
+  NUM-to-int(FIRST(pair12)) is 1
+  NUM-to-int(SECOND(pair12)) is 2
+  NUM-to-int(FIRST(PRED-HELPER(pair12))) is 2
 end
 
-FIRST = lam(p):
-  p(lam(a, b): a end)
+MINUS1 = lam(n):
+  nth-pair = n(PRED-HELPER, MAKE-PAIR(ZERO, ZERO))
+  FIRST(nth-pair)
 end
 
-SECOND = lam(p):
-  p(lam(a, b): b end)
+check:
+  NUM-to-int(MINUS1(ONE)) is 0
+  NUM-to-int(MINUS1(THREE)) is 2
 end
 
-ONE_TWO = PAIR(ONE, TWO)
-NUM-to-string(FIRST(ONE_TWO)) # 1
-NUM-to-string(SECOND(ONE_TWO)) # 2
+## Challanges
+
+# Implement IS-ZERO, which takes a NUMBER and returns TRUE
+# if it is ZERO, FALSE otherwise. It cannot use NUM-to-int
+# or int-to-NUM except to check your answer
+fun EQUAL0(n):
+  n(lam(x): false end, TRUE)
+end
+
+check:
+  BOOL-to-string(IS-ZERO(ZERO)) is "true"
+end
+
+# Implement int-to-NUM, which takes a regular positive
+# integer and returns a Church numeral. Hint: Use recursion.
+# You can use regular if, else, etc.
+fun int-to-NUM(i):
+  if i == 0:
+    ZERO
+  else:
+    INCREMENT(int-to-NUM(i - 1))
+  end
+end
+
+check:
+  NUM-to-int(int-to-NUM(0)) is 0
+  NUM-to-int(int-to-NUM(10)) is 10
+end
+
+# Implement subtraction by decrementing n1 n2 times.
+# You cannot use NUM-to-int or int-to-NUM except to check your
+# answer.
+SUB = lam(n1, n2):
+  n2(MINUS1, n1)
+end
+
+check:
+  NUM-to-int(SUB(THREE, TWO)) is 1
+end
