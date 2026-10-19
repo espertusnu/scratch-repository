@@ -40,7 +40,7 @@ fun my-doubles-map(numbers :: List<Number>) -> List<Number>:
   map(lam(n :: Number) -> Number: 2 * n end,
   numbers)
 where:
-  my-doubles-map([list: 1, 2, 3]) is [list: 2, 4, 6]
+my-doubles-map([list: 1, 2, 3]) is [list: 2, 4, 6]
 end
 
 ## Exercise 3
@@ -98,7 +98,7 @@ end
 ## Exercise 7
 
 fun my-alternating(start-list :: List) -> List block:
-  doc: "creates a list of every other elment from start-list"
+  doc: "creates a list of every other element from start-list"
   var my-list = empty
   var take-next = true
   for each(elt from start-list) block:
@@ -119,7 +119,7 @@ end
 # Here's a convoluted solution (not recommended).
 
 fun my-alternating-map(start-list :: List) -> List:
-  doc: "creates a list of every other elment from start-list"
+  doc: "creates a list of every other element from start-list"
 
   # Create [list: 0, 1, 2, ..., (n-1)] where n is the length of start-list
   list-of-pos = range(0, length(start-list))
