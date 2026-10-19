@@ -1,6 +1,22 @@
-use context dcic2024
+fun my-squares(numbers :: List<Number>) -> List<Number> block:
+  doc: "squares all the numbers in the list"
+  var my-list = empty
+  for each(n from numbers):
+    my-list := my-list + [list: n * n]
+  end
+  my-list
+where:
+  my-squares([list:]) is [list: ]
+  my-squares([list: 1, 2, 3]) is [list: 1, 4, 9]
+end
 
-import lists as L
+fun my-squares-map(numbers :: List<Number>) -> List<Number> block:
+  doc: "doubles all the numbers in the list"
+  map(lam(n): n * n end, numbers)
+where:
+  my-squares-map([list:]) is [list: ]
+  my-squares([list: 1, 2, 3]) is [list: 1, 4, 9]
+end
 
 ## Exercise 1
 
@@ -19,8 +35,7 @@ end
 
 fun my-doubles-map(numbers :: List<Number>) -> List<Number>:
   doc: "doubles all the numbers in the list"
-  L.map(
-    lam(n :: Number) -> Number: 2 * n end,
+  map(lam(n :: Number) -> Number: 2 * n end,
   numbers)
 where:
 my-doubles-map([list: 1, 2, 3]) is [list: 2, 4, 6]
@@ -44,7 +59,7 @@ end
 
 fun my-string-lens-map(strings :: List<String>) -> List<Number>:
   doc: "creates a list of the lengths of the strings"
-  L.map(string-length, strings)
+  map(string-length, strings)
 where:
   my-string-lens-map(empty) is empty
   my-string-lens-map([list: "hi", "there"]) is [list: 2, 5]
@@ -70,7 +85,7 @@ end
 
 fun my-pos-nums-map(num-list :: List<Number>) -> List<Number>:
   doc: "creates a list with the positive numbers in num-list"
-  L.filter(
+  filter(
     lam(n :: Number) -> Boolean: n > 0 end,
     num-list)
 where:
@@ -105,29 +120,29 @@ fun my-alternating-map(start-list :: List) -> List:
   doc: "creates a list of every other elment from start-list"
 
   # Create [list: 0, 1, 2, ..., (n-1)] where n is the length of start-list
-  list-of-pos = L.range(0, L.length(start-list))
+  list-of-pos = range(0, length(start-list))
 
   # Create list of lists, where element 0 is [list: 0, elt0],
   # where elt0 is the first element of start-list. The outer
   # list has n elements, where n is the length of start-list
-  list-of-lists = L.map2(
+  list-of-lists = map2(
     lam(x, y) -> List: [list: x, y] end,
     list-of-pos,
     start-list)
-  
+
   # Keep only the inner lists whose first element (position) is even
-  even-lists = L.filter(
-    lam(lst :: List) -> Boolean: 
+  even-lists = filter(
+    lam(lst :: List) -> Boolean:
       pos = lst.get(0)
       num-modulo(pos, 2) == 0
     end,
     list-of-lists)
-  
+
   # Keep only the elements from the original list, dropping the positions
-  L.map(
+  map(
     lam(lst :: List): lst.get(1) end,
     even-lists)
-  
+
 where:
   my-alternating-map(empty) is empty
   my-alternating-map([list: -5, 5, 0]) is [list: -5, 0]
