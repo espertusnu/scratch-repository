@@ -1,3 +1,5 @@
+## Live-coding
+
 fun my-squares(numbers :: List<Number>) -> List<Number> block:
   doc: "squares all the numbers in the list"
   var my-list = empty
