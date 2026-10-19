@@ -40,7 +40,7 @@ fun my-doubles-map(numbers :: List<Number>) -> List<Number>:
   map(lam(n :: Number) -> Number: 2 * n end,
   numbers)
 where:
-my-doubles-map([list: 1, 2, 3]) is [list: 2, 4, 6]
+  my-doubles-map([list: 1, 2, 3]) is [list: 2, 4, 6]
 end
 
 ## Exercise 3
